@@ -1,10 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path'); // Necesario para servir archivos estáticos en producción
 require('dotenv').config(); 
 
 const authRoutes = require('./AuthRoutes'); 
 const { protect } = require('./AuthMiddleware'); 
+const User = require('./UserModel'); // Asegúrate de importar tu modelo de usuario si es necesario en index.js
 
 // --- 1. CONFIGURACIÓN INICIAL ---
 const app = express();
@@ -17,7 +19,7 @@ mongoose.connect(MONGO_URI)
   .then(() => console.log('✅ Conectado a MongoDB. ¡La base de datos está lista!'))
   .catch(err => console.error('❌ Error de conexión a MongoDB:', err));
 
-// --- 3. DEFINICIÓN DEL MODELO DE TAREAS (CORREGIDO: Colocado antes de ser usado) ---
+// --- 3. DEFINICIÓN DEL MODELO DE TAREAS ---
 const todoSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -28,13 +30,15 @@ const todoSchema = new mongoose.Schema({
   completed: { type: Boolean, default: false },
 }, { timestamps: true }); 
 
-const Todo = mongoose.model('Todo', todoSchema); // ¡Ahora todoSchema está definido!
+const Todo = mongoose.model('Todo', todoSchema); 
 
 // Middleware General
 app.use(express.json()); 
 app.use(cors()); 
 
-// --- 4. Definición de Rutas API ---
+// ------------------------------------------------------------------
+// --- 4. Definición de Rutas API (DEBEN IR ANTES DE LA LÓGICA FRONTEND) ---
+// ------------------------------------------------------------------
 
 // A. Rutas de Autenticación (Públicas)
 app.use('/api/auth', authRoutes); 
@@ -103,6 +107,26 @@ app.delete('/api/todos/:id', protect, async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+// ------------------------------------------------------------------
+// --- 5. LÓGICA DE DESPLIEGUE (DEBE IR AL FINAL) ---
+// ------------------------------------------------------------------
+
+if (process.env.NODE_ENV === 'production') {
+  // 1. Establece la carpeta estática (archivos compilados de React)
+  app.use(express.static(path.join(__dirname, '../client/dist')));
+
+  // 2. Para cualquier ruta que NO sea una ruta de API, sirve index.html
+  // ¡El comodín (*) debe ser el último catch-all!
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'))
+  );
+} else {
+  // Ruta de prueba para desarrollo
+  app.get('/', (req, res) => {
+    res.send('API corriendo en modo de desarrollo');
+  });
+}
 
 // Iniciar servidor
 app.listen(PORT, () => {
