@@ -1,0 +1,130 @@
+/* --- Estilos Generales --- */
+body {
+    background-color: #282c34; /* Fondo oscuro */
+    color: white;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alineación superior para el contenedor */
+    min-height: 100vh;
+    padding-top: 50px;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #383c44; /* Contenedor ligeramente más claro */
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Estilos de la Lista de Tareas (Anteriores) --- */
+/* (Asegúrate de mantener los estilos de .header, .input-group, etc. que ya tenías) */
+
+.input-group {
+    display: flex;
+    margin-bottom: 20px;
+}
+.input-group input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #61dafb;
+    border-radius: 6px 0 0 6px;
+    background-color: #454950;
+    color: #f0f0f0;
+}
+.input-group button {
+    padding: 10px 20px;
+    background-color: #61dafb;
+    color: #282c34;
+    border: none;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+}
+.todo-list {
+    list-style: none;
+    padding: 0;
+}
+.todo-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 8px;
+    background-color: #454950;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.todo-list li.completed span {
+    text-decoration: line-through;
+    color: #aaa;
+}
+.todo-list li button {
+    background-color: #ff5555;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+/* --- NUEVOS ESTILOS: AuthForm.jsx --- */
+
+.auth-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.auth-container h2 {
+    margin-bottom: 20px;
+}
+
+.auth-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Espacio entre los elementos del formulario */
+}
+
+/* Estilos de los campos de entrada */
+.auth-container input {
+    width: 80%;
+    max-width: 400px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #61dafb;
+    background-color: #454950;
+    color: #f0f0f0;
+    font-size: 16px;
+}
+
+/* Estilo del botón */
+.auth-container button {
+    padding: 10px 20px;
+    background-color: #61dafb;
+    color: #282c34;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 80%;
+    max-width: 400px;
+}
+
+/* Mensajes de error */
+.error-message {
+    color: #ff5555;
+    margin-bottom: 15px;
+}
+
+/* Enlace para cambiar entre Login/Register */
+.toggle-mode {
+    margin-top: 15px;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 14px;
+}

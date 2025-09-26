@@ -1,0 +1,16 @@
+# Dependencias de Node
+/node_modules
+/client/node_modules
+/server/node_modules
+
+# Archivos de build de React (se generan al compilar)
+/client/dist
+
+# Archivos de variables de entorno (¡CRUCIAL para seguridad!)
+.env
+/server/.env
+
+# Logs y cachés
+npm-debug.log*
+yarn-debug.log*
+.DS_Store
